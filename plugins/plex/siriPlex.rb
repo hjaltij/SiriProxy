@@ -39,7 +39,7 @@ STOP_COMMAND = "stop"
 class SiriPlex < SiriPlugin
 
   #Plex Remote Implementation
-  #Needs a lot of more functionality
+  #Needs a lot more functionality
 
   def initialize()
     @host = "YOUR PLEX HOST"
