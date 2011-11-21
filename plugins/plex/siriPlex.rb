@@ -28,6 +28,8 @@ require 'open-uri'
 # Eventually I'd like to have it talk to the SQLite DB that stores all the media information for Plex
 # That way you could ask Siri to play the latest episode of i.e. Mythbusters
 # Now it only supports pause, play and stop
+
+# Remember to configure the host and port for your Plex Media Server below
 ######
 
 PLAY_COMMAND = "play"
@@ -40,8 +42,8 @@ class SiriPlex < SiriPlugin
   #Needs a lot of more functionality
 
 	def initialize()
-	  @host = "10.0.1.75"
-	  @port = 32400
+	  @host = "YOUR PLEX HOST"
+	  @port = "YOUR PLEX PORT" #default port is 32400
 	end
 	
 	def run_playback_command(command)
