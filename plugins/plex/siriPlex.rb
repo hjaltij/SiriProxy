@@ -41,75 +41,71 @@ class SiriPlex < SiriPlugin
   #Plex Remote Implementation
   #Needs a lot of more functionality
 
-	def initialize()
-	  @host = "YOUR PLEX HOST"
-	  @port = "YOUR PLEX PORT" #default port is 32400
-	end
-	
-	def run_playback_command(command)
-	  uri = "http://#{@host}:#{@port}/system/players/#{@host}/playback/#{command}"
-	  response = open(uri).read
-	end
-	
-	def pause()
+  def initialize()
+    @host = "YOUR PLEX HOST"
+    @port = "YOUR PLEX PORT" #default port is 32400
+  end
+
+  def run_playback_command(command)
+    uri = "http://#{@host}:#{@port}/system/players/#{@host}/playback/#{command}"
+    response = open(uri).read
+  end
+
+  def pause()
     run_playback_command(PAUSE_COMMAND)
   end
-  
+
   def play()
     run_playback_command(PLAY_COMMAND)
   end
-  
+
   def stop()
     run_playback_command(STOP_COMMAND)
   end
-  
+
   #plugin implementations:
-	def object_from_guzzoni(object, connection) 
-		
-		object
-	end
-	
-	
-	#Don't forget to return the object!
-	def object_from_client(object, connection)
-		
-		
-		object
-	end
-	
-	
-	def unknown_command(object, connection, command)			
-		object
-	end
-	
-	def speech_recognized(object, connection, phrase)	
-	  
-	  #We need to do this here because otherwise Siri thinks we are asking it to play music
-	  #from our iPhone's music library
-	  
-	  if(phrase.match(/plex/i))				
-			response = nil
-			
+  def object_from_guzzoni(object, connection)
+
+  object
+  end
+
+  #Don't forget to return the object!
+  def object_from_client(object, connection)
+    object
+  end
+
+  def unknown_command(object, connection, command)
+    object
+  end
+
+  def speech_recognized(object, connection, phrase)
+
+    #We need to do this here because otherwise Siri thinks we are asking it to play music
+    #from our iPhone's music library
+
+    if(phrase.match(/plex/i))
+      response = nil
+
       if(phrase.match(/pause/i))
-  			self.plugin_manager.block_rest_of_session_from_server	
+        self.plugin_manager.block_rest_of_session_from_server	
         pause()
         response = "Pausing Plex"
       elsif(phrase.match(/play/i) || phrase.match(/resume/i))
-  			self.plugin_manager.block_rest_of_session_from_server	
+        self.plugin_manager.block_rest_of_session_from_server	
         play()
         response = "Playing Plex"
       elsif(phrase.match(/stop/i))
-			  self.plugin_manager.block_rest_of_session_from_server	
+        self.plugin_manager.block_rest_of_session_from_server	
         stop()
         response = "Stopping Plex"
       end
-      
+
       if(response)
-		    return generate_siri_utterance(connection.lastRefId, response)
-		  end
-		end
-		
-		object
-	end
+        return generate_siri_utterance(connection.lastRefId, response)
+      end
+    end
+
+    object
+  end
 
 end
