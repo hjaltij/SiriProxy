@@ -22,6 +22,8 @@ require 'rubygems'
 require 'tweaksiri'
 require 'siriobjectgenerator'
 require 'open-uri'
+require 'rexml/document'
+require 'plugins/plex/plex_library'
 
 #######
 # This is a very basic plugin for Plex but I plan on adding to it =)
@@ -32,9 +34,14 @@ require 'open-uri'
 # Remember to configure the host and port for your Plex Media Server below
 ######
 
+
+#These commands are not enabled right now
 PLAY_COMMAND = "play"
 PAUSE_COMMAND = "pause"
 STOP_COMMAND = "stop"
+
+PLEX_HOST = "10.0.1.75" #Change this so it matches your Plex install
+PLEX_PORt = 32400
 
 class SiriPlex < SiriPlugin
 
@@ -42,13 +49,19 @@ class SiriPlex < SiriPlugin
   #Needs a lot more functionality
 
   def initialize()
-    @host = "YOUR PLEX HOST"
-    @port = "YOUR PLEX PORT" #default port is 32400
+    @host = PLEX_HOST
+    @port = 32400
   end
 
   def run_playback_command(command)
     uri = "http://#{@host}:#{@port}/system/players/#{@host}/playback/#{command}"
     response = open(uri).read
+  end
+  
+  def play_media(key)
+    url_encoded_key = CGI::escape(key)
+    uri = "http://#{@host}:#{@port}/system/players/#{@host}/application/playMedia?key=#{url_encoded_key}&path=http://#{@host}:#{@port}#{key}"
+    open(uri).read
   end
 
   def pause()
@@ -77,27 +90,74 @@ class SiriPlex < SiriPlugin
   def unknown_command(object, connection, command)
     object
   end
+  
+  def map_siri_numbers_to_int(number)
+    ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"].index(number)
+  end
 
   def speech_recognized(object, connection, phrase)
 
     #We need to do this here because otherwise Siri thinks we are asking it to play music
     #from our iPhone's music library
-
-    if(phrase.match(/plex/i))
-      response = nil
-
-      if(phrase.match(/pause/i))
-        self.plugin_manager.block_rest_of_session_from_server	
-        pause()
-        response = "Pausing Plex"
-      elsif(phrase.match(/play/i) || phrase.match(/resume/i))
-        self.plugin_manager.block_rest_of_session_from_server	
-        play()
-        response = "Playing Plex"
-      elsif(phrase.match(/stop/i))
-        self.plugin_manager.block_rest_of_session_from_server	
-        stop()
-        response = "Stopping Plex"
+    
+    #At the moment it eats all play/playing commands, since it had a hard time understanding Plex.
+    #might just be an issue with my acccent =)
+    
+    if(phrase.match(/(play|playing) (the)? latest(.+) of(.+)/i))
+      
+      self.plugin_manager.block_rest_of_session_from_server
+      
+      response = nil      
+      show_title = $4
+      
+      library = PlexLibrary.new(@host, port)
+      show = library.find_show(show_title)      
+      episode = library.latest_episode(show)
+      
+      if(episode != nil)
+        play_media(episode.key)
+        response = "Playing \"#{episode.title}\""
+      else
+        response = "I'm sorry but I couldn't find the episode you asked for"
+      end
+      
+      if(response)
+        return generate_siri_utterance(connection.lastRefId, response)
+      end
+      
+    elsif(phrase.match(/(play|playing) (.+)\sepisode/i))
+      
+      self.plugin_manager.block_rest_of_session_from_server
+      response = nil      
+      library = PlexLibrary.new("10.0.1.75", 32400)
+      
+      show_title = $2
+      if(phrase.match(/episode\s([0-9]+|one|two|three|four|five|six|seven|eight|nine|ten)/))        
+        episodeNumber = $1
+        
+        if(phrase.match(/season\s([0-9]+|one|two|three|four|five|six|seven|eight|nine|ten)/))          
+          seasonNumber = $1          
+          if(seasonNumber.to_i == 0)
+            seasonNumber = map_siri_numbers_to_int(seasonNumber)
+          end          
+        else
+          seasonNumber = 1
+        end
+        
+        show = library.find_show(show_title)
+        
+        if(episodeNumber.to_i == 0)
+          episodeNumber = map_siri_numbers_to_int(episodeNumber)
+        end
+        
+        episode = library.find_episode(show, seasonNumber, episodeNumber)
+        
+        if(episode != nil)
+          play_media(episode.key)
+          response = "Playing \"#{episode.title}\""
+        else
+          response = "I'm sorry but I couldn't find the episode you asked for"
+        end
       end
 
       if(response)
