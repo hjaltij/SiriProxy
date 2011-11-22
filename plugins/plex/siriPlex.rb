@@ -106,7 +106,7 @@ class SiriPlex < SiriPlugin
       response = nil      
       show_title = $4
       
-      library = PlexLibrary.new(@host, port)
+      library = PlexLibrary.new(@host, @port)
       show = library.find_show(show_title)      
       episode = library.latest_episode(show)
       
@@ -125,7 +125,7 @@ class SiriPlex < SiriPlugin
       
       self.plugin_manager.block_rest_of_session_from_server
       response = nil      
-      library = PlexLibrary.new("10.0.1.75", 32400)
+      library = PlexLibrary.new(@host, @port)
       
       show_title = $2
       if(phrase.match(/episode\s([0-9]+|one|two|three|four|five|six|seven|eight|nine|ten)/))        
