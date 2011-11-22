@@ -37,7 +37,7 @@ PAUSE_COMMAND = "pause"
 STOP_COMMAND = "stop"
 
 PLEX_HOST = "10.0.1.75" #Change this so it matches your Plex install
-PLEX_PORt = 32400
+PLEX_PORT = 32400
 
 class SiriPlex < SiriPlugin
 
@@ -46,7 +46,7 @@ class SiriPlex < SiriPlugin
 
   def initialize()
     @host = PLEX_HOST
-    @port = 32400
+    @port = PLEX_PORT
   end
 
   def run_playback_command(command)
