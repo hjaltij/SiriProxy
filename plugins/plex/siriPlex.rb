@@ -27,10 +27,6 @@ require 'plugins/plex/plex_library'
 
 #######
 # This is a very basic plugin for Plex but I plan on adding to it =)
-# Eventually I'd like to have it talk to the SQLite DB that stores all the media information for Plex
-# That way you could ask Siri to play the latest episode of i.e. Mythbusters
-# Now it only supports pause, play and stop
-
 # Remember to configure the host and port for your Plex Media Server below
 ######
 
