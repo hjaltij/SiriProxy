@@ -7,6 +7,11 @@ Siri Proxy is a proxy server for Apple's Siri "assistant." The idea is to allow 
 
 The main example I provide is a plugin to control [my thermostat](http://www.radiothermostat.com/latestnews.html#advanced) with Siri. It responds to commands such as, "What's the status of the thermostat?", or "Set the thermostat to 68 degrees", or even "What's the inside temperature?"
 
+Find us on IRC
+--------------
+
+We now have an IRC channel. Check out the #SiriProxy channel on irc.freenode.net.
+
 Demo Videos
 -----------
 
@@ -16,6 +21,8 @@ See it running with the ELIZA plugin here: [http://www.youtube.com/watch?v=uTiLv
 
 Other Plugins
 -------------
+
+While we encourage people to create SiriProxy plguins, please note that the project is still in very early stages and the **plugin API is still in flux** and may undergo radical changes.
 
 **Sam Lu's Hockey Scores plugin**  
 Source: [https://github.com/senmu/SiriProxy/tree/hockeyscores](https://github.com/senmu/SiriProxy/tree/hockeyscores)  
@@ -45,7 +52,7 @@ Currently, setup requires a pretty solid knowledge of certificates and openssl (
 )
 4. Install the requisite Ruby gems:
 	* httparty
-	* open-uri
+	* open-uri (you may not need this on newer versions of Ruby)
 	* json
 	* CFPropertyList
 	* uuidtools
