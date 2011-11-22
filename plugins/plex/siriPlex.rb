@@ -31,7 +31,6 @@ require 'CGI'
 # Remember to configure the host and port for your Plex Media Server below
 ######
 
-
 #These commands are not enabled right now
 PLAY_COMMAND = "play"
 PAUSE_COMMAND = "pause"
