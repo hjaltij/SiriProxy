@@ -80,8 +80,9 @@ class PlexLibrary
     end
   end
   
-  def find_show(title)    
-    splitted = title.split(" ").join("|")    
+  def find_show(title)
+    title.gsub!(/^The\s+/, "")
+    splitted = title.split(" ").join("|") 
     shows = all_shows    
     shows.detect {|s| s.title.match(/#{splitted}/i)}
   end
