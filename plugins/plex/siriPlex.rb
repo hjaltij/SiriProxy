@@ -107,7 +107,7 @@ class SiriPlex < SiriPlugin
       show_title = $4
       
       library = PlexLibrary.new(@host, @port)
-      show = library.find_show(show_title)      
+      show = library.find_show(show_title)  
       episode = library.latest_episode(show)
       
       if(episode != nil)

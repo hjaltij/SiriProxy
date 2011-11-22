@@ -14,6 +14,7 @@ class PlexLibrary
   
   def xml_doc_for_path(path)
     uri = "#{base_path}#{path}"
+    puts uri
     xml_data = open(uri).read
     doc = REXML::Document.new(xml_data)
   end
@@ -93,6 +94,7 @@ class PlexLibrary
   end
   
   def latest_episode(show)
+    if show == nil then return nil end
     show_episodes(show).sort.last
   end
   
