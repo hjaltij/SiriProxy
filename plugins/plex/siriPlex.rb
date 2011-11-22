@@ -24,6 +24,7 @@ require 'siriobjectgenerator'
 require 'open-uri'
 require 'rexml/document'
 require 'plugins/plex/plex_library'
+require 'CGI'
 
 #######
 # This is a very basic plugin for Plex but I plan on adding to it =)
