@@ -7,9 +7,11 @@ Important Notice
 This is an old fork of the SiriProxy project and includes my first version of the SiriProxy-Plex plugin. Since then the project has gone through major changes.
 
 My plugin has been updated and moved to a new repository.
+
 [http://www.github.com/hjaltij/SiriProxy-Plex](http://www.github.com/hjaltij/SiriProxy-Plex)
 
 For SiriProxy please visit their official repository.
+
 [https://github.com/plamoni/SiriProxy](https://github.com/plamoni/SiriProxy)
 
 About
