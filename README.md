@@ -1,6 +1,15 @@
 Siri Proxy
 ==========
 
+Important Notice
+-----
+
+This is an old fork of the SiriProxy project and includes my first version of the SiriProxy-Plex plugin. Since then the project has gone through major changes.
+
+My plugin has been updated and moved to a new repository. You can find it here, [http://www.github.com/hjaltij/SiriProxy-Plex](http://www.github.com/hjaltij/SiriProxy-Plex)
+
+For SiriProxy please visit their official repository here, [https://github.com/plamoni/SiriProxy](https://github.com/plamoni/SiriProxy)
+
 About
 -----
 Siri Proxy is a proxy server for Apple's Siri "assistant." The idea is to allow for the creation of custom handlers for different actions. This can allow developers to easily add functionality to Siri. 
